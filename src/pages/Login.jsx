@@ -5,20 +5,23 @@ import logo from '../assets/agronomy.svg'
 import api from '../services/api.js'
 
 export default function Login({ history }) {
-    const [email, setEmail] = useState('');
+    const [inputemail, setInputemail] = useState('');
     const [pwd, setPwd] = useState('');
 
     async function handleSubmit(e) {
-        e.preventDefault();
-        if(email==='' || pwd===''){
+        e.preventDefault(); //previne comportamento padrão de redirecionamento
+        if(inputemail==='' || pwd===''){
             console.log('Can\'t authenticate')
         }
         else{
-            const response = await api.get(`/user/${email}/${pwd}`);
+            const response = await api.get(`/user/${inputemail}/${pwd}`);
 
-            console.log(response)
-
-            history.push('/main')
+            // console.log(response)
+            const { _id, email, password, isAdmin } = response.data;
+            
+            if(pwd === password){
+                history.push(`/main/${_id}/${email}/${isAdmin}`)
+            }
         }
     }
 
@@ -29,8 +32,8 @@ export default function Login({ history }) {
                 <input 
                     placeholder="Digite seu usuário" 
                     type="email"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
+                    value={inputemail}
+                    onChange={e => setInputemail(e.target.value)}
                 />
                 <input 
                     placeholder="Digite sua senha" 

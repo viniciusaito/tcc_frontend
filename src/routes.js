@@ -8,7 +8,7 @@ export default function Routes() {
     return (
         <BrowserRouter>
             <Route path="/" exact component={Login} />
-            <Route path="/main" component={Main} />
+            <Route path="/main/:id/:email/:isAdmin" component={Main} />
         </BrowserRouter>
     );
 }
